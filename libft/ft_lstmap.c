@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 12:35:47 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/19 19:52:44 by mnishimo         ###   ########.fr       */
+/*   Created: 2018/11/27 22:45:28 by mnishimo          #+#    #+#             */
+/*   Updated: 2018/11/29 10:48:16 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "player.h"
+#include "libft.h"
+#include <stdlib.h>
 
-int main(void)
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	t_game	game;
-	t_piece	piece;
+	t_list	*ptr;
+	t_list	*first;
 
-	int fd;
-
-	fd = open("txt", O_WRONLY);
-
-	if (get_game(&game) == NULL || get_piece(&piece) == NULL)
-		return (0);
-	dprintf(fd, "piece %i %i %c", piece.x, piece.y, game.p);
-	close(fd);
-	return (0);
+	first = f(lst);
+	lst = lst->next;
+	ptr = first;
+	while (lst != NULL)
+	{
+		ptr->next = f(lst);
+		ptr = ptr->next;
+		lst = lst->next;
+	}
+	return (first);
 }

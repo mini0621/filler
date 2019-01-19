@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   ft_pwer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 12:35:47 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/19 19:52:44 by mnishimo         ###   ########.fr       */
+/*   Created: 2018/11/28 22:29:37 by mnishimo          #+#    #+#             */
+/*   Updated: 2018/11/28 22:36:25 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "player.h"
+#include "libft.h"
 
-int main(void)
+int	ft_power(int base, int power)
 {
-	t_game	game;
-	t_piece	piece;
-
-	int fd;
-
-	fd = open("txt", O_WRONLY);
-
-	if (get_game(&game) == NULL || get_piece(&piece) == NULL)
-		return (0);
-	dprintf(fd, "piece %i %i %c", piece.x, piece.y, game.p);
-	close(fd);
-	return (0);
+	if (power < 0)
+		return (1);
+	return (base * ft_power(base, power - 1));
 }

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:16:01 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/18 19:51:33 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/19 19:53:28 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,13 @@
 # define PLAYER_H
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "get_next_line.h"
+
+
+
+#include <stdio.h>
+#include <fcntl.h>
+
 
 typedef struct	s_game
 {
@@ -32,11 +37,11 @@ typedef struct	s_piece
 }				t_piece;
 
 
-char	*get_game(int fd, t_game *game);
+char	*get_game(t_game *game);
 char	get_playernbr(char *line);
-char	*init_board(t_game *game, int fd);
-char	*cp_board(int x, int y, char *board, int fd);
+char	*init_board(t_game *game);
+char	*cp_board(int x, int y, char *board);
 
-char	*get_pmap(int fd, int x, int y);
-t_piece	*get_piece(int fd, t_piece *piece);
+char	*get_pmap(int x, int y);
+t_piece	*get_piece(t_piece *piece);
 #endif

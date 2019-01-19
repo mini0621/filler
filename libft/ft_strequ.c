@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mnishimo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 12:35:47 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/19 19:52:44 by mnishimo         ###   ########.fr       */
+/*   Created: 2018/11/26 22:39:26 by mnishimo          #+#    #+#             */
+/*   Updated: 2018/11/29 10:41:01 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "player.h"
+#include "libft.h"
 
-int main(void)
+int	ft_strequ(char const *s1, char const *s2)
 {
-	t_game	game;
-	t_piece	piece;
-
-	int fd;
-
-	fd = open("txt", O_WRONLY);
-
-	if (get_game(&game) == NULL || get_piece(&piece) == NULL)
+	if (s1 == NULL && s2 == NULL)
+		return (1);
+	else if (s1 == NULL || s2 == NULL)
 		return (0);
-	dprintf(fd, "piece %i %i %c", piece.x, piece.y, game.p);
-	close(fd);
+	if (ft_strcmp(s1, s2) == 0)
+		return (1);
 	return (0);
 }

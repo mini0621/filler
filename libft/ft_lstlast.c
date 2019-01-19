@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 12:35:47 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/19 19:52:44 by mnishimo         ###   ########.fr       */
+/*   Created: 2018/11/28 22:36:35 by mnishimo          #+#    #+#             */
+/*   Updated: 2018/11/28 22:48:15 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "player.h"
+#include "libft.h"
+#include <string.h>
 
-int main(void)
+t_list	*ft_lstlast(t_list *alst)
 {
-	t_game	game;
-	t_piece	piece;
+	t_list	*ptr;
 
-	int fd;
-
-	fd = open("txt", O_WRONLY);
-
-	if (get_game(&game) == NULL || get_piece(&piece) == NULL)
-		return (0);
-	dprintf(fd, "piece %i %i %c", piece.x, piece.y, game.p);
-	close(fd);
-	return (0);
+	if (alst == NULL)
+		return (NULL);
+	ptr = alst;
+	while (ptr->next != NULL)
+		ptr = ptr->next;
+	return (ptr);
 }

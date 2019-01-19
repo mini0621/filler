@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 12:35:47 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/19 19:52:44 by mnishimo         ###   ########.fr       */
+/*   Created: 2018/11/27 22:32:41 by mnishimo          #+#    #+#             */
+/*   Updated: 2018/11/29 10:46:46 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "player.h"
+#include "libft.h"
+#include <stdlib.h>
 
-int main(void)
+void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
 {
-	t_game	game;
-	t_piece	piece;
+	t_list	*p1;
 
-	int fd;
-
-	fd = open("txt", O_WRONLY);
-
-	if (get_game(&game) == NULL || get_piece(&piece) == NULL)
-		return (0);
-	dprintf(fd, "piece %i %i %c", piece.x, piece.y, game.p);
-	close(fd);
-	return (0);
+	p1 = *alst;
+	while (p1 != NULL)
+	{
+		del(p1->content, p1->content_size);
+		*alst = p1->next;
+		free(p1);
+		p1 = *alst;
+	}
+	*alst = NULL;
 }

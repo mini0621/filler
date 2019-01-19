@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   ft_lstat.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 12:35:47 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/19 19:52:44 by mnishimo         ###   ########.fr       */
+/*   Created: 2018/11/28 22:43:32 by mnishimo          #+#    #+#             */
+/*   Updated: 2018/11/28 22:54:54 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "player.h"
+#include "libft.h"
+#include <string.h>
 
-int main(void)
+t_list	*ft_lstat(t_list *alst, unsigned int nbr)
 {
-	t_game	game;
-	t_piece	piece;
+	unsigned int	i;
+	t_list			*ptr;
 
-	int fd;
-
-	fd = open("txt", O_WRONLY);
-
-	if (get_game(&game) == NULL || get_piece(&piece) == NULL)
-		return (0);
-	dprintf(fd, "piece %i %i %c", piece.x, piece.y, game.p);
-	close(fd);
-	return (0);
+	i = 0;
+	if (alst == NULL)
+		return (NULL);
+	ptr = alst;
+	while (ptr->next != NULL && i < nbr)
+	{
+		ptr = ptr->next;
+		i++;
+	}
+	if (i == nbr)
+		return (ptr);
+	return (NULL);
 }

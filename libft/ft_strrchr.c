@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 12:35:47 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/19 19:52:44 by mnishimo         ###   ########.fr       */
+/*   Created: 2018/11/27 19:56:40 by mnishimo          #+#    #+#             */
+/*   Updated: 2018/11/29 10:24:04 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "player.h"
+#include <string.h>
 
-int main(void)
+char	*ft_strrchr(const char *s, int c)
 {
-	t_game	game;
-	t_piece	piece;
+	int		i;
+	char	*ptr;
 
-	int fd;
-
-	fd = open("txt", O_WRONLY);
-
-	if (get_game(&game) == NULL || get_piece(&piece) == NULL)
-		return (0);
-	dprintf(fd, "piece %i %i %c", piece.x, piece.y, game.p);
-	close(fd);
-	return (0);
+	ptr = NULL;
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == c)
+			ptr = (char *)s + i;
+		i++;
+	}
+	if (c == '\0')
+		return ((char *)s + i);
+	else
+		return (ptr);
 }
