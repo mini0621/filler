@@ -9,7 +9,7 @@ LIB = libft/
 HEADER = player.h get_next_line.h
 
 
-SRC = get_next_line.c player.c parsing.c piece.c
+SRC = get_next_line.c player.c parsing.c piece.c solver.c
 OBJ = $(SRC:.c=.o)
 
 RM = rm -f 

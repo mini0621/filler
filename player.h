@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:16:01 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/19 19:53:28 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/20 14:03:40 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ typedef struct	s_piece
 	char	*map;
 }				t_piece;
 
+typedef struct	s_coord
+{
+	int		x;
+	int		y;
+}				t_coord;
 
 char	*get_game(t_game *game);
 char	get_playernbr(char *line);
@@ -44,4 +49,11 @@ char	*cp_board(int x, int y, char *board);
 
 char	*get_pmap(int x, int y);
 t_piece	*get_piece(t_piece *piece);
+
+int		skip_till(char *str, char **line, size_t len);
+int		next_turn(t_game *game, char *board, t_piece *piece);
+void	use_turn(t_game *game, char *board, t_piece *piece, t_coord *coord);
+
+t_coord	*init_coord(t_coord *coord);
+void	get_coord(t_game *game, char *board, t_piece *piece, t_coord *coord);
 #endif
