@@ -6,14 +6,14 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/29 12:24:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/19 17:53:01 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/20 19:16:00 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# include "./libft/libft.h"
+# include "libftprintf.h"
 # include <sys/types.h>
 # include <sys/uio.h>
 # include <unistd.h>

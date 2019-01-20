@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:35:08 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/20 14:11:49 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/20 17:58:01 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ t_piece	*get_piece(t_piece *piece)
 	char	*line;
 	int		i;
 
-	if (get_next_line(0, &line) < 0)
-		return (NULL);	
-	if (ft_strncmp(line, "Piece", 5) != 0)
+	if (skip_till("Piece", &line, 5) < 1)
 		return (NULL);
 	piece->y = atoi(line + 6);
 	i = 6;

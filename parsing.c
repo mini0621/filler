@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:35:08 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/20 14:11:41 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/20 17:54:34 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,14 @@ char	*get_game(t_game *game)
 	char	*i;
 	char	*line;
 
-	if (game == NULL || get_next_line(0, &line) < 1)
+	if (game == NULL)
 		return (NULL);
-	while (ft_strncmp("$$$", line, 3) != 0)
-	{
-		free(line);
-		if (get_next_line(0, &line) < 1)
-			return (NULL);
-	}
+	if (skip_till("$$$", &line, 3) < 1)
+		return (NULL);
 	game->p = get_playernbr(line);
-	while (ft_strncmp(line, "Plateau", 7) != 0)
-	{
-		free(line);
-		if (get_next_line(0, &line) < 1)
-			return (NULL);
-	}
+	free(line);
+	if (skip_till("Plateau", &line, 7) < 1)
+		return (NULL);
 	i = line + 8;
 	game->y = ft_atoi(i);
 	while (*i != ' ')
@@ -77,13 +70,15 @@ char	*cp_board(int x, int y, char *board)
 	char	*line;
 	
 	lc = 0;
-	while (lc <= y)
+	if (skip_till("000", &line, 3) < 1)
+		return (NULL);
+	while (lc < y)
 	{
-		if (get_next_line(0, &line) <= 0)
-			return (NULL);
 		if (lc != 0)
 			ft_strncat(board, line + 4, x);
 		free(line);
+		if (lc != y - 1 && get_next_line(0, &line) <= 0)
+			return (NULL);
 		lc++;
 	}
 	return (board);

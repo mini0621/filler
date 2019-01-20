@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:16:01 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/20 14:03:40 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/20 19:18:06 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <stdlib.h>
 #include "get_next_line.h"
-
+#include "libftprintf.h"
 
 
 #include <stdio.h>
@@ -52,7 +52,7 @@ t_piece	*get_piece(t_piece *piece);
 
 int		skip_till(char *str, char **line, size_t len);
 int		next_turn(t_game *game, char *board, t_piece *piece);
-void	use_turn(t_game *game, char *board, t_piece *piece, t_coord *coord);
+void	use_turn(int fd, t_game *game, char *board, t_piece *piece, t_coord *coord);
 
 t_coord	*init_coord(t_coord *coord);
 void	get_coord(t_game *game, char *board, t_piece *piece, t_coord *coord);
