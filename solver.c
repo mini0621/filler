@@ -20,60 +20,111 @@ t_coord	*init_coord(t_coord *coord, int x, int y)
 	return (coord);
 }
 
-int		find_xo(int i, char *board, char p)
+t_coord *choose_p_board(t_coord *coord, char **board, char p)
 {
-	while (board[i] != '\0' && board[i] != p)
-		i++;
-	return (i);
+	int	x;
+	int	y;
+
+	x = coord->x + 1;
+	if (board[coord->y][x] == '\0')
+	{
+		x = 0;
+		y = coord->y + 1;
+	}
+	else
+		y = coord->y;
+
+	while (board[y] != NULL)
+	{
+		while (board[y][x] != '\0')
+		{
+			if (board[y][x] == p || board[y][x] == p - 32)
+				return (init_coord(coord, x, y));
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+	return (NULL);
 }
 
-int		get_index(t_coord *coord, int w)
+t_coord *choose_p_piece(t_coord *coord, char **map)
 {
-	return (coord->x + coord->y * w);	
+	int	x;
+	int	y;
+
+	x = coord->x + 1;
+	y = coord->y;
+	while (map[y] != NULL)
+	{
+		while (map[y][x] != '\0')
+		{
+			if (map[y][x] == '*')
+				return (init_coord(coord, x, y));
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+	return (NULL);
 }
 
-t_coord	*get_coord(t_coord *coord, int index, int w)
+int		is_fit(t_coord *coord, char **board, t_piece *piece, t_coord *base_b)
 {
-	coord->x = index % w;
-	coord->y = index / w;
-	return (coord);
-}
-int		is_fit(int index, char *board, t_piece *piece)
-{
-	t_coord	pcoord;
-	t_coord	bcoord;
-	char	*map;
-	int		i;
+	int		x;
+	int		y;
+	char	**map;
 
 	map = piece->map;
-	i = 0;
-	while (map[i] != '\0')
+	y = 0;
+	while(map[y] != NULL)
 	{
-		while (map[i] != '*')
-				i++;
-		init_coord(&pcoord, 0, 0);
-		init_coord(&bcoord, index % game->x - i % piece->x, index / game->x + i / piece->x);
-		while (map[get_index()] != '\0' && board[a] != '\0')
+		x = 0;
+		if (board[coord->y + y] == NULL)
+				return ((is_empty(map, y, 'y') == 1) ? 1 : -1);
+		while (map[y][x] != '\0')
 		{
-			if (b != 0 && b % piece->x == 0)
-				a += game->x - piece->x;
-			if (a != index && map[b] != '.' && map[a] != '.')
+			if (board[coord->y + y][coord->x + x] == '\0'
+					&& is_empty(map, x, 'x') != 1)
 				return (-1);
-			if (a % game->x != game->x -1)
-				a++;
-			else 
-			b++;
+			if (board[coord->y + y][coord->x + x] == '\0')
+				break;
+			if (map[y][x] == '*' && board[coord->y + y][coord->x + x] != '.'
+				&& !(coord->y + y == base_b->y && coord->x + x == base_b->x))
+				return (-1);
+			x++;
 		}
+		y++;	
 	}
+	return (1);
 }
 
-void	get_spot(t_game *game, char *board, t_piece *piece, t_coord *coord)
+void	find_coord(t_game *game, char **board, t_piece *piece, t_coord *coord)
 {
-	int	index;
+	t_coord	base_b;
+	t_coord	base_p;
 
-	index = get_index(0, board, game->p);
-
-	coord->x = 8;
-	coord->y = 2;
+	if (choose_p_board(init_coord(&base_b, -1, 0), board, game->p) == NULL)
+		return ;
+//	printf("starting from x:%i, y:%i\n", base_b.x, base_b.y);
+	if (choose_p_piece(init_coord(&base_p, -1, 0), piece->map) == NULL)
+		return ;
+//	printf("starting from x:%i, y:%i\n", base_p.x, base_p.y);
+	init_coord(coord, base_b.x - base_p.x, base_b.y - base_p.y);
+	while (coord->x < 0 || coord->y < 0 
+			||is_fit(coord, board, piece, &base_b) != 1)
+	{
+		if (choose_p_piece(&base_p, piece->map) == NULL)
+		{
+			if (choose_p_board(&base_b, board, game->p) == NULL)
+				return ;
+//		printf("\nnow boardx:%i, y:%i\n", base_b.x, base_b.y);
+			choose_p_piece(init_coord(&base_p, -1, 0), piece->map);
+		}
+//		printf("piece is at x:%i, y:%i\n", base_p.x, base_p.y);
+		init_coord(coord, base_b.x - base_p.x, base_b.y - base_p.y);
+//		printf("will check x:%i, y:%i\n", coord->x, coord->y);
+	}
+//	printf("starting from x:%i, y:%i\n", coord->x, coord->y);
 	return ;
 }

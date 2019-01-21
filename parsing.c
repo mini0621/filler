@@ -6,16 +6,17 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:35:08 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/20 17:54:34 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/21 15:14:17 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "player.h"
 
-char	*get_game(t_game *game)
+char	**get_game(t_game *game)
 {
 	char	*i;
 	char	*line;
+	char	**ret;
 
 	if (game == NULL)
 		return (NULL);
@@ -31,7 +32,9 @@ char	*get_game(t_game *game)
 		i++;
 	game->x = ft_atoi(i + 1);
 	free(line);
-	return (init_board(game));
+	if ((ret = init_map(game->x, game->y)) == NULL)
+		return (NULL);
+	return (cp_board(game->x, game->y, ret));
 }
 
 char	get_playernbr(char *line)
@@ -52,30 +55,35 @@ char	get_playernbr(char *line)
 	return ((p == 1) ? 'x' : 'o');
 }
 
-char	*init_board(t_game *game)
+int		skip_till(char *str, char **line, size_t len)
 {
-	char	*ret;
+	int	ret;
 
-	if (game == NULL || game->x <= 0 || game->y <= 0
-			|| (ret = ft_strnew(game->x * game->y)) == NULL)
-		return (NULL);
-	if (cp_board(game->x, game->y, ret) == NULL )
-		return (NULL);
+	while ((ret = get_next_line(0, line)) > 0)
+	{
+		if (ft_strncmp(str, *line, len) == 0)
+			break;
+		free(*line);
+	}
+	if (ret == -1)
+	{
+		free(*line);
+		return (ret);
+	}
 	return (ret);
 }
 
-char	*cp_board(int x, int y, char *board)
+char	**cp_board(int x, int y, char **board)
 {
 	int		lc;
 	char	*line;
-	
+
 	lc = 0;
 	if (skip_till("000", &line, 3) < 1)
 		return (NULL);
 	while (lc < y)
 	{
-		if (lc != 0)
-			ft_strncat(board, line + 4, x);
+		ft_strncpy(board[lc], line + 4, x);
 		free(line);
 		if (lc != y - 1 && get_next_line(0, &line) <= 0)
 			return (NULL);

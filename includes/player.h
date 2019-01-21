@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:16:01 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/21 17:41:53 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/21 13:15:28 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,9 @@ typedef struct	s_coord
 char	**get_game(t_game *game);
 char	get_playernbr(char *line);
 char	**cp_board(int x, int y, char **board);
-
 char	**get_piecemap(int x, int y);
 t_piece	*get_piece(t_piece *piece);
-int		is_empty(char **map, int index, char d);
+
 
 char	**init_map(int x, int y);
 void	del_map(char **map);
@@ -59,8 +58,5 @@ int		next_turn(t_game *game, char **board, t_piece *piece);
 void	use_turn(int fd, t_game *game, char **board, t_piece *piece, t_coord *coord);
 
 t_coord	*init_coord(t_coord *coord, int x, int y);
-t_coord *choose_p_board(t_coord *coord, char **board, char p);
-t_coord *choose_p_piece(t_coord *coord, char **board);
-int		is_fit(t_coord *coord, char **board, t_piece *piece, t_coord *base_b);
 void	find_coord(t_game *game, char **board, t_piece *piece, t_coord *coord);
 #endif

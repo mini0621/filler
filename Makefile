@@ -4,12 +4,12 @@ CC = gcc
 
 FLAGS = -Wall -Werror -Wextra
 
-INCLUDES = .
+INCLUDES = ./includes/
 LIB = libftprintf/
 HEADER = player.h get_next_line.h
 
 
-SRC = get_next_line.c player.c parsing.c piece.c solver.c
+SRC = get_next_line.c player.c parsing.c map.c solver.c piece.c
 OBJ = $(SRC:.c=.o)
 
 RM = rm -f 
@@ -24,7 +24,7 @@ LIBFT = libftprintf.a
 
 $(NAME):$(OBJ)
 	make -C libftprintf/ libftprintf.a
-	$(CC) $(CFLAGS) -I $(INCLUDES) -o $(NAME) $(OBJ) -L $(LIB) -lftprintf
+	$(CC) $(CFLAGS) -I $(INCLUDES) -o $(NAME) $(OBJ) -L $(LIB) -lftprintf -fsanitize=address -g
 
 all: $(NAME)
 
