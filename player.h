@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:16:01 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/21 17:41:53 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/22 00:00:09 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,13 @@ int		next_turn(t_game *game, char **board, t_piece *piece);
 void	use_turn(int fd, t_game *game, char **board, t_piece *piece, t_coord *coord);
 
 t_coord	*init_coord(t_coord *coord, int x, int y);
-t_coord *choose_p_board(t_coord *coord, char **board, char p);
+t_coord *choose_p_board(t_coord *coord, char **board, t_game *game, t_coord *dir);
 t_coord *choose_p_piece(t_coord *coord, char **board);
 int		is_fit(t_coord *coord, char **board, t_piece *piece, t_coord *base_b);
-void	find_coord(t_game *game, char **board, t_piece *piece, t_coord *coord);
+void	find_coord(t_game *game, char **board, t_piece *piece, t_coord *coord, t_coord *dir);
+
+t_coord	*choose_dir(char **board, char p, t_coord *dir);
+void	get_positions(t_coord *me, t_coord *op, char **board, char p);
+void	change_dir(t_game *game, char **board, t_coord *coord, t_coord *dir);
+t_coord	*start_coord(t_coord *dir, t_coord *coord, t_game *game);
 #endif

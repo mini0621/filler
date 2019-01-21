@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 15:13:46 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/21 17:06:08 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/21 22:41:05 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		is_empty(char **map, int index, char d)
 	i = 0;
 	while (d == 'y' && map[index][i] != '\0' && map[index][i] != '*')
 		i++;
-	if (d == 'y' && map[index][i] != '\0')
+	if (d == 'y' && map[index][i] == '\0')
 		return (1);
 	else if (d == 'y')
 		return (0);

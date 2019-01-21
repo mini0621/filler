@@ -1,5 +1,4 @@
 /* ************************************************************************** */
-
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   solver.c                                           :+:      :+:    :+:   */
@@ -7,124 +6,80 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 22:55:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/20 18:25:35 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/22 00:39:55 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "player.h"
 
-t_coord	*init_coord(t_coord *coord, int x, int y)
-{
-	coord->x = x;
-	coord->y = y;
-	return (coord);
-}
-
-t_coord *choose_p_board(t_coord *coord, char **board, char p)
-{
-	int	x;
-	int	y;
-
-	x = coord->x + 1;
-	if (board[coord->y][x] == '\0')
-	{
-		x = 0;
-		y = coord->y + 1;
-	}
-	else
-		y = coord->y;
-
-	while (board[y] != NULL)
-	{
-		while (board[y][x] != '\0')
-		{
-			if (board[y][x] == p || board[y][x] == p - 32)
-				return (init_coord(coord, x, y));
-			x++;
-		}
-		x = 0;
-		y++;
-	}
-	return (NULL);
-}
-
-t_coord *choose_p_piece(t_coord *coord, char **map)
-{
-	int	x;
-	int	y;
-
-	x = coord->x + 1;
-	y = coord->y;
-	while (map[y] != NULL)
-	{
-		while (map[y][x] != '\0')
-		{
-			if (map[y][x] == '*')
-				return (init_coord(coord, x, y));
-			x++;
-		}
-		x = 0;
-		y++;
-	}
-	return (NULL);
-}
-
-int		is_fit(t_coord *coord, char **board, t_piece *piece, t_coord *base_b)
+void	get_positions(t_coord *me, t_coord *op, char **board, char p)
 {
 	int		x;
-	int		y;
-	char	**map;
+	int 	y;
+	char	p2;
 
-	map = piece->map;
+	p2 = (p == 'x') ? 'o' : 'x';
 	y = 0;
-	while(map[y] != NULL)
+	while (board[y] != NULL)
 	{
 		x = 0;
-		if (board[coord->y + y] == NULL)
-				return ((is_empty(map, y, 'y') == 1) ? 1 : -1);
-		while (map[y][x] != '\0')
+		while (board[y][x] != '\0')
 		{
-			if (board[coord->y + y][coord->x + x] == '\0'
-					&& is_empty(map, x, 'x') != 1)
-				return (-1);
-			if (board[coord->y + y][coord->x + x] == '\0')
-				break;
-			if (map[y][x] == '*' && board[coord->y + y][coord->x + x] != '.'
-				&& !(coord->y + y == base_b->y && coord->x + x == base_b->x))
-				return (-1);
+			if (board[y][x] == p)
+				init_coord(me, x, y);
+			if (board[y][x] == p2)
+				init_coord(op, x, y);
 			x++;
 		}
-		y++;	
+		y++;
 	}
-	return (1);
 }
 
-void	find_coord(t_game *game, char **board, t_piece *piece, t_coord *coord)
+t_coord	*choose_dir(char **board, char p, t_coord *dir)
 {
-	t_coord	base_b;
-	t_coord	base_p;
+	t_coord	me;
+	t_coord op;
+	get_positions(&me, &op, board, p);
+	dir->x = (op.x - me.x < 0) ? -1 : 1;
+	dir->y = (op.y - me.y > 0) ? -1 : 1;
+	if (dir->x == 0)
+		dir->x = 1;
+	if (dir->y == 0)
+		dir->y = 1;
+	return (dir);
+}
 
-	if (choose_p_board(init_coord(&base_b, -1, 0), board, game->p) == NULL)
-		return ;
-//	printf("starting from x:%i, y:%i\n", base_b.x, base_b.y);
-	if (choose_p_piece(init_coord(&base_p, -1, 0), piece->map) == NULL)
-		return ;
-//	printf("starting from x:%i, y:%i\n", base_p.x, base_p.y);
-	init_coord(coord, base_b.x - base_p.x, base_b.y - base_p.y);
-	while (coord->x < 0 || coord->y < 0 
-			||is_fit(coord, board, piece, &base_b) != 1)
-	{
-		if (choose_p_piece(&base_p, piece->map) == NULL)
-		{
-			if (choose_p_board(&base_b, board, game->p) == NULL)
-				return ;
-//		printf("\nnow boardx:%i, y:%i\n", base_b.x, base_b.y);
-			choose_p_piece(init_coord(&base_p, -1, 0), piece->map);
-		}
-//		printf("piece is at x:%i, y:%i\n", base_p.x, base_p.y);
-		init_coord(coord, base_b.x - base_p.x, base_b.y - base_p.y);
-//		printf("will check x:%i, y:%i\n", coord->x, coord->y);
-	}
-//	printf("starting from x:%i, y:%i\n", coord->x, coord->y);
-	return ;
+void	change_dir(t_game *game, char **board, t_coord *coord, t_coord *dir)
+{
+	char	op;
+
+	op = (game->p == 'x') ? 'o' : 'x';
+
+	
+	//ft_printf("hi x: %i y : %i game; x %i, y%i dir x %i, y %i \n", coord->x, coord->y, game->x, game->y, dir->x, dir->y);
+	if (dir->x == 1
+		&& (coord->x == game->x - 1 || board[coord->y][coord->x + 1] == op))
+		dir->x = -1;
+	else if (dir->y == 1
+		&& (coord->y == game->y - 1 || board[coord->y + 1][coord->x] == op))
+		dir->y = -1;
+	else if (dir->x == -1
+		&& (coord->x == 0 || board[coord->y][coord->x - 1] == op))
+		dir->x = 1;
+	else if (dir->y == 1
+		&& (coord->y == 0 || board[coord->y - 1][coord->x] == op))
+		dir->y = 1;
+}
+
+t_coord	*start_coord(t_coord *dir, t_coord *coord, t_game *game)
+{
+	if (dir->x == 1)
+		coord->x = game->x - 1;
+	if (dir->x == -1)
+		coord->x = 0;
+	if (dir->y == 1)
+		coord->y = game->y - 1;
+	if (dir->y == -1)
+		coord->y = 0;
+	return (coord);
 }

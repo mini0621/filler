@@ -9,7 +9,7 @@ LIB = libftprintf/
 HEADER = player.h get_next_line.h
 
 
-SRC = get_next_line.c player.c parsing.c map.c solver.c piece.c
+SRC = get_next_line.c player.c parsing.c map.c solver.c piece.c coord.c
 OBJ = $(SRC:.c=.o)
 
 RM = rm -f 
