@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:35:47 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/21 21:51:06 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/22 16:30:10 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int		main(void)
 	use_turn(fd, &game, board, &piece, choose_dir(board, game.p, &dir));
 	while (next_turn(&game, board, &piece) > -1)
 	{
-//		print_map(fd, board);
-//		print_map(fd, piece.map);
+		print_map(fd, board);
+		print_map(fd, piece.map);
 
 		use_turn(fd, &game, board, &piece, &dir);
 	}
@@ -65,7 +65,9 @@ void	use_turn(int fd, t_game *game, char **board, t_piece *piece, t_coord *dir)
 {
 	t_coord	coord;
 
+	dprintf(fd,"init dir x: %i y :%i\n", dir->x, dir->y);
 	find_coord(game, board, piece, &coord, dir);
 	del_map(piece->map);
 	ft_printf("%i %i\n", coord.y, coord.x);
+	dprintf(fd, "%i %i dir x: %i y :%i\n", coord.y, coord.x, dir->x, dir->y);
 }

@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 22:55:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/22 00:39:53 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/22 17:25:17 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_coord *choose_p_board(t_coord *coord, char **board, t_game *game, t_coord *dir
 	int 	ylim;
 	char	p;
 	
-	//change_dir(game, board, coord, dir);
 	coord->x = coord->x - dir->x;
 	if (coord->x == game->x || coord->x == -1)
 	{
@@ -38,17 +37,18 @@ t_coord *choose_p_board(t_coord *coord, char **board, t_game *game, t_coord *dir
 	p = game->p;
 	xlim = (dir->x > 0) ?  -1 : game->x - 1;
 	y = coord->y;
+	x = coord->x;
 	ylim = (dir->y >  0) ?  -1 : game->y;
 	while (y != ylim)
 	{
-		x = coord->x;
 		while (x != xlim)
 		{
 //			ft_printf("x: %i y: %i\n", x, y);
 			if (board[y][x] == p || board[y][x] == p - 32)
-				return (init_coord(coord, x, y));
+				return (change_dir(game, board, init_coord(coord, x, y), dir));
 			x = x - dir->x;
 		}
+		x = (dir->x < 0) ?  -1 : game->x - 1;	
 		y = y - dir->y;
 	}
 	return (NULL);
@@ -87,7 +87,9 @@ int		is_fit(t_coord *coord, char **board, t_piece *piece, t_coord *base_b)
 	int		x;
 	int		y;
 	char	**map;
-
+	
+	if (coord->x < 0 || coord->y < 0)
+		return (-1);
 	map = piece->map;
 	y = 0;
 	while(map[y] != NULL)
@@ -125,20 +127,24 @@ void	find_coord(t_game *game, char **board, t_piece *piece,
 		return ;
 //	ft_printf("starting from x:%i, y:%i\n", base_p.x, base_p.y);
 	init_coord(coord, base_b.x - base_p.x, base_b.y - base_p.y);
-	while (coord->x < 0 || coord->y < 0 
-			||is_fit(coord, board, piece, &base_b) != 1)
+	while (coord->x > game->x -1 || coord->y > game->y - 1
+			|| is_fit(coord, board, piece, &base_b) != 1)
 	{
+		if (coord->x > game->x -1 || coord->y > game->y - 1)
+			start_coord(dir, coord, game);
+		else
+			init_coord(coord, base_b.x + base_p.x, base_b.y + base_p.y);
 		if (choose_p_piece(&base_p, piece->map) == NULL)
 		{
 			if (choose_p_board(&base_b, board, game, dir) == NULL)
 				return ;
-//		ft_printf("\nnow boardx:%i, y:%i\n", base_b.x, base_b.y);
+//		ft_printf("\nnow boardx:%i, y:%i p is %c\n", base_b.x, base_b.y, game->p);
 			choose_p_piece(init_coord(&base_p, -1, 0), piece->map);
 		}
 //		ft_printf("piece is at x:%i, y:%i\n", base_p.x, base_p.y);
 		init_coord(coord, base_b.x - base_p.x, base_b.y - base_p.y);
-//		printf("will check x:%i, y:%i\n", coord->x, coord->y);
+//			ft_printf("will check x:%i, y:%i\n", coord->x, coord->y);
 	}
-//	printf("starting from x:%i, y:%i\n", coord->x, coord->y);
+//	printf("find at x:%i, y:%i\n", coord->x, coord->y);
 	return ;
 }

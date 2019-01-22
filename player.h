@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:16:01 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/22 00:00:09 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/22 16:21:49 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ void	find_coord(t_game *game, char **board, t_piece *piece, t_coord *coord, t_co
 
 t_coord	*choose_dir(char **board, char p, t_coord *dir);
 void	get_positions(t_coord *me, t_coord *op, char **board, char p);
-void	change_dir(t_game *game, char **board, t_coord *coord, t_coord *dir);
+t_coord	*change_dir(t_game *game, char **board, t_coord *coord, t_coord *dir);
 t_coord	*start_coord(t_coord *dir, t_coord *coord, t_game *game);
 #endif
