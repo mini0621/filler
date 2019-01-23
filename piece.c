@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 15:13:46 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/21 22:41:05 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/23 14:34:59 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,17 @@ int		is_empty(char **map, int index, char d)
 	if (map[i] == NULL)
 		return (1);
 	return (0);
+}
+
+t_coord	*start_piece(t_coord *dir, t_coord *coord, t_piece *piece)
+{
+	dir->x *= -1;
+	dir->y *= -1;
+	coord = start_coord(dir, coord, piece->x, piece->y);
+	dir->x *= -1;
+	dir->y *= -1;
+//	int fd= open("txt", O_WRONLY);
+//	dprintf(fd, "init piece first x %i, y %i\n", coord->x, coord->y);
+//	close(fd);
+	return (coord);
 }

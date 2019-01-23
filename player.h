@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:16:01 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/22 16:21:49 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/23 14:58:45 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct	s_game
 	int		x;
 	int		y;
 	char	p;
+	int		toggle;
 }				t_game;
 
 typedef struct	s_piece
@@ -42,6 +43,14 @@ typedef struct	s_coord
 	int		y;
 }				t_coord;
 
+typedef struct	s_positions
+{
+	int	min_x;
+	int	min_y;
+	int	max_x;
+	int	max_y;
+}				t_positions;
+
 char	**get_game(t_game *game);
 char	get_playernbr(char *line);
 char	**cp_board(int x, int y, char **board);
@@ -49,6 +58,7 @@ char	**cp_board(int x, int y, char **board);
 char	**get_piecemap(int x, int y);
 t_piece	*get_piece(t_piece *piece);
 int		is_empty(char **map, int index, char d);
+t_coord	*start_piece(t_coord *dir, t_coord *coord, t_piece *piece);
 
 char	**init_map(int x, int y);
 void	del_map(char **map);
@@ -60,12 +70,14 @@ void	use_turn(int fd, t_game *game, char **board, t_piece *piece, t_coord *coord
 
 t_coord	*init_coord(t_coord *coord, int x, int y);
 t_coord *choose_p_board(t_coord *coord, char **board, t_game *game, t_coord *dir);
-t_coord *choose_p_piece(t_coord *coord, char **board);
+t_coord *choose_p_board2(t_coord *coord, char **board, t_game *game, t_coord *dir);
+t_coord *choose_p_piece(t_coord *coord, char **map, t_piece *piece, t_coord *dir);
 int		is_fit(t_coord *coord, char **board, t_piece *piece, t_coord *base_b);
-void	find_coord(t_game *game, char **board, t_piece *piece, t_coord *coord, t_coord *dir);
+t_coord	*find_coord(t_game *game, char **board, t_piece *piece, t_coord *coord, t_coord *dir);
 
-t_coord	*choose_dir(char **board, char p, t_coord *dir);
-void	get_positions(t_coord *me, t_coord *op, char **board, char p);
+void	init_positions(t_positions *pos, int x, int y);
+t_coord	*choose_dir(char **board, char p, t_coord *dir, t_game *game);
+void	get_positions(t_positions *me, t_positions *op, char **board, char p);
 t_coord	*change_dir(t_game *game, char **board, t_coord *coord, t_coord *dir);
-t_coord	*start_coord(t_coord *dir, t_coord *coord, t_game *game);
+t_coord	*start_coord(t_coord *dir, t_coord *coord, int x, int y);
 #endif

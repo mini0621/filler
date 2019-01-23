@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:35:08 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/21 15:14:17 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/23 14:36:01 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	**get_game(t_game *game)
 
 	if (game == NULL)
 		return (NULL);
+	game->toggle = 0;
 	if (skip_till("$$$", &line, 3) < 1)
 		return (NULL);
 	game->p = get_playernbr(line);

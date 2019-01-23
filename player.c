@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:35:47 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/22 16:30:10 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/23 15:14:49 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ int		main(void)
 	char	**board;
 	t_coord	dir;
 
-	int fd = open("txt", O_WRONLY);
+	int fd;
+	fd= open("txt", O_WRONLY);
 
 	if ((board = get_game(&game)) == NULL || get_piece(&piece) == NULL)
 		return (0);
-	use_turn(fd, &game, board, &piece, choose_dir(board, game.p, &dir));
+	use_turn(fd, &game, board, &piece, choose_dir(board, game.p, &dir,&game));
 	while (next_turn(&game, board, &piece) > -1)
 	{
 		print_map(fd, board);
@@ -65,9 +66,10 @@ void	use_turn(int fd, t_game *game, char **board, t_piece *piece, t_coord *dir)
 {
 	t_coord	coord;
 
-	dprintf(fd,"init dir x: %i y :%i\n", dir->x, dir->y);
-	find_coord(game, board, piece, &coord, dir);
+	dprintf(fd," me : %c init dir x: %i y: %i toggle :%i\n",game->p,  dir->x, dir->y, game->toggle);
+	if (find_coord(game, board, piece, &coord, dir) == NULL)
+		init_coord(&coord, 0, 0);
 	del_map(piece->map);
 	ft_printf("%i %i\n", coord.y, coord.x);
-	dprintf(fd, "%i %i dir x: %i y :%i\n", coord.y, coord.x, dir->x, dir->y);
+	dprintf(fd, "%i %i dir x: %i y :%i, toggle: %i\n", coord.y, coord.x, dir->x, dir->y, game->toggle);
 }
