@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 22:55:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/23 17:00:45 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/23 17:27:40 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_coord *choose_p_board(t_coord *coord, char **board, t_game *game, t_coord *dir
 	int 	ylim;
 	char	p;
 
-	if (game->toggle == 1)
+	if (game->toggle == 1 || game->toggle == -2)
 		return (choose_p_board2(coord, board, game, dir));
 	coord->x = coord->x - dir->x;
 	if (coord->x == game->x || coord->x == -1)

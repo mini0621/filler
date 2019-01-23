@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 22:55:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/23 17:08:31 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/23 17:31:33 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,9 @@ t_coord	*change_dir(t_game *game, char **board, t_coord *coord, t_coord *dir)
 	t_positions	me;
 	t_positions op;
 	
-	if (game->toggle == 0)
-		game->toggle *= -1;
-	if (game->toggle != 0)
+	if (game->toggle == 1 || game->toggle == -1)
 	{
+		game->toggle *= -1;
 		dir->y *= -1;	
 	}
 	init_positions(&me, game->x, game->y);
@@ -106,15 +105,15 @@ t_coord	*change_dir(t_game *game, char **board, t_coord *coord, t_coord *dir)
 	get_positions(&me, &op, board, game->p);
 //	ft_printf("after me.maxy = %i, me miny = %i op.maxny = %i, op miny = %i\n", me.max_y, me.min_y, op.max_y, op.min_y);
 
-	if ((dir->y > 0 && me.max_y >= op.min_y)
-			|| (dir->y < 0 && op.min_y <= me.max_y))
+	if ((dir->y > 0 && me.max_y + 5 >= op.min_y)
+			|| (dir->y < 0 && me.min_y -5 <= op.max_y))
 	{
 		game->toggle = -1;
 	}
-	if ((coord->y == game->y - 1) || (coord->y == 0))
+	if ((me.max_y == game->y - 1) || (me.min_y == 0))
 	{
-		dir->y = (coord->y == 0) ? 1 : -1;
-		game->toggle = 0;
+		if (me.max_y == game->y - 1 && me.min_y == 0)
+			game->toggle = -2;
 		return (start_coord(dir, coord, game->x, game->y));
 	}
 	return (NULL);
