@@ -1,0 +1,263 @@
+++++++++++++++++++++++++
+for map 00 as player O
+++++++++++++++++++++++++
+
+try 0 as player O
+
+== O fin: 54
+== X fin: 68
+
+try 0 as player X
+
+== O fin: 65
+== X fin: 105
+
+try 1 as player O
+
+== O fin: 77
+== X fin: 83
+
+try 1 as player X
+
+== O fin: 103
+== X fin: 14
+
+try 2 as player O
+
+== O fin: 89
+== X fin: 71
+
+try 2 as player X
+
+== O fin: 93
+== X fin: 35
+
+try 3 as player O
+
+== O fin: 90
+== X fin: 66
+
+try 3 as player X
+
+== O fin: 54
+== X fin: 114
+
+try 4 as player O
+
+== O fin: 38
+== X fin: 103
+
+try 4 as player X
+
+== O fin: 45
+== X fin: 116
+
+try 5 as player O
+
+== O fin: 86
+== X fin: 75
+
+try 5 as player X
+
+== O fin: 92
+== X fin: 73
+
+try 6 as player O
+
+== O fin: 51
+== X fin: 105
+
+try 6 as player X
+
+== O fin: 89
+== X fin: 69
+
+try 7 as player O
+
+== O fin: 70
+== X fin: 95
+
+try 7 as player X
+
+== O fin: 74
+== X fin: 100
+
+try 8 as player O
+
+== O fin: 42
+== X fin: 33
+
+try 8 as player X
+
+== O fin: 117
+== X fin: 49
+
+try 9 as player O
+
+== O fin: 152
+== X fin: 6
+
+try 9 as player X
+
+== O fin: 58
+== X fin: 97
+++++++++++++++++++++++++
+for map 01 as player O
+++++++++++++++++++++++++
+
+try 0 as player O
+
+== O fin: 73
+== X fin: 260
+
+try 0 as player X
+
+== O fin: 164
+== X fin: 168
+
+try 1 as player O
+
+== O fin: 78
+== X fin: 240
+
+try 1 as player X
+
+== O fin: 193
+== X fin: 142
+
+try 2 as player O
+
+== O fin: 338
+== X fin: 0
+
+try 2 as player X
+
+== O fin: 185
+== X fin: 152
+
+try 3 as player O
+
+== O fin: 56
+== X fin: 263
+
+try 3 as player X
+
+== O fin: 171
+== X fin: 161
+
+try 4 as player O
+
+== O fin: 87
+== X fin: 252
+
+try 4 as player X
+
+== O fin: 215
+== X fin: 108
+
+try 5 as player O
+
+== O fin: 26
+== X fin: 284
+
+try 5 as player X
+
+== O fin: 166
+== X fin: 169
+
+try 6 as player O
+
+== O fin: 60
+== X fin: 253
+
+try 6 as player X
+
+== O fin: 0
+== X fin: 349
+
+try 7 as player O
+
+== O fin: 0
+== X fin: 320
+
+try 7 as player X
+
+== O fin: 0
+== X fin: 368
+
+try 8 as player O
+
+== O fin: 68
+== X fin: 264
+
+try 8 as player X
+
+== O fin: 1
+== X fin: 357
+
+try 9 as player O
+
+== O fin: 100
+== X fin: 232
+
+try 9 as player X
+
+== O fin: 180
+== X fin: 173
+++++++++++++++++++++++++
+for map 02 as player O
+++++++++++++++++++++++++
+
+try 0 as player O
+
+== O fin: 188
+== X fin: 1503
+
+try 0 as player X
+
+== O fin: 1170
+== X fin: 184
+
+try 1 as player O
+
+== O fin: 1036
+== X fin: 999
+
+try 1 as player X
+
+== O fin: 1455
+== X fin: 243
+
+try 2 as player O
+
+== O fin: 304
+== X fin: 1218
+
+try 2 as player X
+
+== O fin: 861
+== X fin: 619
+
+try 3 as player O
+
+== O fin: 279
+== X fin: 1532
+
+try 3 as player X
+
+== O fin: 1608
+== X fin: 285
+
+try 4 as player O
+
+== O fin: 264
+== X fin: 1670
+
+try 4 as player X
+
+
+try 5 as player O
+
+
+try 5 as player X
+

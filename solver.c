@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 22:55:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/24 16:59:07 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/24 17:41:57 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,11 @@ t_coord	*change_dir(t_game *game, char **board, t_coord *coord, t_coord *dir)
 	get_positions(&me, &op, board, game->p);
 	if (game->toggle == 0 && ((dir->y > 0 && me.max_y - 5 >= op.min_y)
 		|| (dir->y < 0 && me.min_y -5 <= op.max_y)))
-		game->toggle = 1;
+		game->toggle = 1;	
+	if (game->toggle == 0 && ((dir->x < 0 && op.max_x >= me.min_x)
+		|| (dir->x > 0 && op.min_x  <= me.max_x)))
+		dir->x *= -1;
+		
 	if (game->toggle == 1 && ((me.max_y == game->y - 1 && me.min_y != 0)
 	 || (me.max_y != game->y - 1 && me.min_y == 0)))
 	{
@@ -102,6 +106,7 @@ t_coord	*change_dir(t_game *game, char **board, t_coord *coord, t_coord *dir)
 	{
 			dir->y *= -1; 
 	}
+
 //	if (game->toggle == 2)
 //		game->toggle *= -1;
 //	ft_printf("max (%i, %i) min (%i, %i)\n", me.max_x, me.max_y, me.min_x, me.min_y);
