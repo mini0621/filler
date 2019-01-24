@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 12:16:01 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/23 14:58:45 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/24 14:13:09 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	use_turn(int fd, t_game *game, char **board, t_piece *piece, t_coord *coord
 t_coord	*init_coord(t_coord *coord, int x, int y);
 t_coord *choose_p_board(t_coord *coord, char **board, t_game *game, t_coord *dir);
 t_coord *choose_p_board2(t_coord *coord, char **board, t_game *game, t_coord *dir);
-t_coord *choose_p_piece(t_coord *coord, char **map, t_piece *piece, t_coord *dir);
+t_coord *choose_p_piece(t_coord *coord, t_game *game, t_piece *piece, t_coord *dir);
+t_coord *choose_p_piece2(t_coord *coord, t_game *game, t_piece *piece, t_coord *dir);
 int		is_fit(t_coord *coord, char **board, t_piece *piece, t_coord *base_b);
 t_coord	*find_coord(t_game *game, char **board, t_piece *piece, t_coord *coord, t_coord *dir);
 

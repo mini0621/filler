@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 22:55:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/23 17:27:40 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/24 16:53:04 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_coord *choose_p_board(t_coord *coord, char **board, t_game *game, t_coord *dir
 	int 	ylim;
 	char	p;
 
-	if (game->toggle == 1 || game->toggle == -2)
+	if (game->toggle == 3)
 		return (choose_p_board2(coord, board, game, dir));
 	coord->x = coord->x - dir->x;
 	if (coord->x == game->x || coord->x == -1)
@@ -88,13 +88,17 @@ t_coord *choose_p_board2(t_coord *coord, char **board, t_game *game, t_coord *di
 	return (NULL);
 }
 
-t_coord *choose_p_piece(t_coord *coord, char **map, t_piece *piece, t_coord *dir)
+
+
+t_coord *choose_p_piece(t_coord *coord, t_game *game, t_piece *piece, t_coord *dir)
 {
 	int		x;
 	int 	y;
 	int 	xlim;
 	int 	ylim;
-	
+	char 	**map;
+
+	map = piece->map;
 	coord->x = coord->x + dir->x;
 	if (coord->x == piece->x || coord->x == -1)
 	{
@@ -115,6 +119,39 @@ t_coord *choose_p_piece(t_coord *coord, char **map, t_piece *piece, t_coord *dir
 		}
 		x = (dir->x > 0) ?  0: piece->x - 1;	
 		y = y + dir->y;
+	}
+	return (NULL);
+}
+
+t_coord *choose_p_piece2(t_coord *coord, t_game *game, t_piece *piece, t_coord *dir)
+{
+	int		x;
+	int 	y;
+	int 	xlim;
+	int 	ylim;
+	char	**map;
+	
+	map = piece->map;
+	coord->y = coord->y + dir->y;
+	if (coord->y == piece->y || coord->y == -1)
+	{
+		coord->x = coord->x + dir->x;
+		coord->y = (dir->y == -1) ? piece->y - 1: 0;
+	}
+	xlim = (dir->x < 0) ?  -1 : piece->x;
+	y = coord->y;
+	x = coord->x;
+	ylim = (dir->y <  0) ?  -1 : piece->y;
+	while (x != xlim)
+	{
+		while (y != ylim)
+		{			
+			if (map[y][x] == '*')
+				return (init_coord(coord, x, y));
+			y = y + dir->y;
+		}
+		y = (dir->y > 0) ?  0: piece->y - 1;	
+		x = x + dir->x;
 	}
 	return (NULL);
 }
@@ -160,7 +197,7 @@ t_coord	*find_coord(t_game *game, char **board, t_piece *piece,
 	if (choose_p_board(start_coord(dir, &base_b, game->x, game->y), board, game, dir) == NULL)
 		return (NULL);
 	change_dir(game, board, &base_b, dir);
-	if (choose_p_board(start_coord(dir, &base_b, game->x, game->y), board, game, dir) == NULL || choose_p_piece(start_piece(dir, &base_p, piece), piece->map, piece, dir) == NULL)
+	if (choose_p_board(start_coord(dir, &base_b, game->x, game->y), board, game, dir) == NULL || choose_p_piece(start_piece(dir, &base_p, piece), game, piece, dir) == NULL)
 		return (NULL);
 	//ft_printf("\nstart over coord x:%i, y:%i base_b x:%i, y:%i base_p x:%i, y:%i dir x:%i, y:%i   \n",coord->x, coord->y, base_b.x, base_b.y, base_p.x, base_p.y, dir->x, dir->y);
 	init_coord(coord, base_b.x - base_p.x, base_b.y - base_p.y);
@@ -169,11 +206,11 @@ t_coord	*find_coord(t_game *game, char **board, t_piece *piece,
 	{
 //	ft_printf("\nstart over coord x:%i, y:%i base_b x:%i, y:%i base_p x:%i, y:%i dir x:%i, y:%i   \n",coord->x, coord->y, base_b.x, base_b.y, base_p.x, base_p.y, dir->x, dir->y);
 		init_coord(coord, base_b.x, base_b.y);
-		if (choose_p_piece(&base_p, piece->map, piece, dir) == NULL)
+		if (choose_p_piece(&base_p, game, piece, dir) == NULL)
 		{
 			if (choose_p_board(&base_b, board, game, dir) == NULL)
 				return (NULL);
-			choose_p_piece(start_piece(dir, &base_p, piece), piece->map, piece, dir);
+			choose_p_piece(start_piece(dir, &base_p, piece), game, piece, dir);
 		}
 		init_coord(coord, base_b.x - base_p.x, base_b.y - base_p.y);
 	}

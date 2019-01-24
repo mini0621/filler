@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 22:55:02 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/23 17:31:33 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/24 16:59:07 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,53 +69,42 @@ t_coord	*choose_dir(char **board, char p, t_coord *dir, t_game *game)
 
 	dir->x = (me.min_x <= op.min_x || me.max_x <= op.max_x) ? 1 : -1;
 	dir->y = (me.min_y <= op.min_y || me.max_y <= op.max_y) ? 1 : -1;
-/*	dis_wa = get_smaller(get_smaller(me.min_x, me.min_y), get_smaller(game->x - me.max_x, game->y - me.max_y));
-	if (dir->x == 1)
-		dis_op = get_smaller(me.max_x - op.min_x, 0);
-	else
-		dis_op = get_smaller(op.max_x - me.min_x, 0);
-*/	
-
-
 	return (dir);
 }
 
 t_coord	*change_dir(t_game *game, char **board, t_coord *coord, t_coord *dir)
 {
-/*	if (dir->x == 1 && coord->x == game->x - 1)
-		dir->x = -1;
-	else if (dir->x == -1 && coord->x == 0)
-		dir->x = 1;
-	if (dir->y == 1 && coord->y == game->y - 1)
-		dir->y = -1;
-	else if (dir->y == -1 && coord->y == 0)
-		dir->y = 1;
-	start_coord(dir, coord, game);
-*/
 	t_positions	me;
 	t_positions op;
-	
-	if (game->toggle == 1 || game->toggle == -1)
-	{
-		game->toggle *= -1;
-		dir->y *= -1;	
-	}
 	init_positions(&me, game->x, game->y);
 	init_positions(&op, game->x, game->y);
 	get_positions(&me, &op, board, game->p);
-//	ft_printf("after me.maxy = %i, me miny = %i op.maxny = %i, op miny = %i\n", me.max_y, me.min_y, op.max_y, op.min_y);
-
-	if ((dir->y > 0 && me.max_y + 5 >= op.min_y)
-			|| (dir->y < 0 && me.min_y -5 <= op.max_y))
+	if (game->toggle == 0 && ((dir->y > 0 && me.max_y - 5 >= op.min_y)
+		|| (dir->y < 0 && me.min_y -5 <= op.max_y)))
+		game->toggle = 1;
+	if (game->toggle == 1 && ((me.max_y == game->y - 1 && me.min_y != 0)
+	 || (me.max_y != game->y - 1 && me.min_y == 0)))
 	{
-		game->toggle = -1;
+		if (me.max_y == game->y - 1)
+			dir->y = -1;
+		game->toggle = 0;
 	}
-	if ((me.max_y == game->y - 1) || (me.min_y == 0))
+	if (game->toggle == 1 && (me.max_y == game->y - 1 && me.min_y == 0))
 	{
-		if (me.max_y == game->y - 1 && me.min_y == 0)
-			game->toggle = -2;
-		return (start_coord(dir, coord, game->x, game->y));
+		dir->y *= -1;
+		game->toggle = 2;
 	}
+	if (game->toggle == 0 && (me.max_x == game->x - 1 ||  me.min_x == 0))
+	{
+		game->toggle = 3;
+	}
+	if (game->toggle ==  1 || game->toggle == 2)
+	{
+			dir->y *= -1; 
+	}
+//	if (game->toggle == 2)
+//		game->toggle *= -1;
+//	ft_printf("max (%i, %i) min (%i, %i)\n", me.max_x, me.max_y, me.min_x, me.min_y);
 	return (NULL);
 }
 
