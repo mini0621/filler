@@ -9,7 +9,7 @@ LIB = libftprintf/
 HEADER = player.h get_next_line.h
 
 
-SRC = get_next_line.c player.c parsing.c map.c solver.c piece.c coord.c
+SRC = get_next_line.c player.c parsing.c map.c solver.c piece.c coord.c point.c
 OBJ = $(SRC:.c=.o)
 
 RM = rm -f 
@@ -19,12 +19,12 @@ LIBFT = libftprintf.a
 .PHONY : clean fclean all
 
 %.o : %.c
-	$(CC) $(CFLAGS) -I $(INCLUDES) -c $^ 
+	$(CC) $(FLAGS) -I $(INCLUDES) -c $^ 
 
 
 $(NAME):$(OBJ)
 	make -C libftprintf/ libftprintf.a
-	$(CC) $(CFLAGS) -I $(INCLUDES) -o $(NAME) $(OBJ) -L $(LIB) -lftprintf -fsanitize=address -g
+	$(CC) $(FLAGS) -I $(INCLUDES) -o $(NAME) $(OBJ) -L $(LIB) -lftprintf
 
 all: $(NAME)
 

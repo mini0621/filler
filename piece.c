@@ -6,7 +6,7 @@
 /*   By: mnishimo <mnishimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 15:13:46 by mnishimo          #+#    #+#             */
-/*   Updated: 2019/01/23 14:34:59 by mnishimo         ###   ########.fr       */
+/*   Updated: 2019/01/30 19:52:42 by mnishimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,25 @@
 t_piece	*get_piece(t_piece *piece)
 {
 	char	*line;
-	int		i;
+	char	*i;
 
-	if (skip_till("Piece", &line, 5) < 1)
+	if (skip_till("Piece ", &line, 6) < 1)
 		return (NULL);
-	piece->y = atoi(line + 6);
-	i = 6;
-	while (line[i] != ' ')
-		i++;
-	piece->x = atoi(line + i);
+	i = line + 6;
+	if (line[6] == '\0' || (i = ft_strchr(i, ' ')) == NULL || *i == '\0')
+	{
+		free(line);
+		return (NULL);
+	}
+	if ((piece->y = ft_atoi(line + 6)) <= 0
+		|| (piece->x = ft_atoi(i)) <= 0)
+	{
+		free(line);
+		return (NULL);
+	}
 	free(line);
-	piece->map = get_piecemap(piece->x, piece->y);
+	if ((piece->map = get_piecemap(piece->x, piece->y)) == NULL)
+		return (NULL);
 	return (piece);
 }
 
@@ -35,17 +43,24 @@ char	**get_piecemap(int x, int y)
 	char	**ret;
 	char	*line;
 
-	if ((ret = init_map(x, y)) == NULL)
+	if ((ret = init_map(x, y, 'p')) == NULL)
 		return (NULL);
 	i = 0;
 	while (i < y)
 	{
-		if (ret[i] == NULL || get_next_line(0, &line) == -1)
+		if (ret[i] == NULL || get_next_line(0, &line) < 1)
 		{
 			del_map(ret);
 			return (NULL);
 		}
+		if (ft_strlen(line) != (unsigned int)x)
+		{
+			del_map(ret);
+			free(line);
+			return (NULL);
+		}
 		ft_strcpy(ret[i], line);
+		free(line);
 		i++;
 	}
 	return (ret);
@@ -76,8 +91,5 @@ t_coord	*start_piece(t_coord *dir, t_coord *coord, t_piece *piece)
 	coord = start_coord(dir, coord, piece->x, piece->y);
 	dir->x *= -1;
 	dir->y *= -1;
-//	int fd= open("txt", O_WRONLY);
-//	dprintf(fd, "init piece first x %i, y %i\n", coord->x, coord->y);
-//	close(fd);
 	return (coord);
 }
